@@ -13,16 +13,17 @@ source=(https://www.kernel.org/pub/software/scm/git/git-{,manpages-}$version.tar
 build() {
 	cd $name-$version
 
-	make CFLAGS="$CFLAGS" \
-		prefix=/usr \
-		gitexecdir=/usr/lib/git-core \
-		CFLAGS="$CFLAGS -flto -ffat-lto-objects" \
-		LDFLAGS="$LDFLAGS -flto -ffat-lto-objects" \
-		INSTALLSITEMAN3DIR=/usr/share/man/man3 \
-		perllibdir=$(/usr/bin/perl -MConfig -wle 'print $Config{installvendorlib}') \
-		INSTALL_SYMLINKS=1 \
-		USE_LIBPCRE2=1 \
-		DESTDIR=$PKG install
+	make \
+        prefix=/usr \
+        gitexecdir=/usr/lib/git-core \
+        CFLAGS="$CFLAGS" \
+        LDFLAGS="$LDFLAGS" \
+        CC=$CC \
+        INSTALLSITEMAN3DIR=/usr/share/man/man3 \
+        perllibdir=$(/usr/bin/perl -MConfig -wle 'print $Config{installvendorlib}') \
+        INSTALL_SYMLINKS=1 \
+        USE_LIBPCRE2=1 \
+        DESTDIR=$PKG install
 
 	prt-get isinst bash-completion && install -Dm644 contrib/completion/git-completion.bash $PKG/usr/share/bash-completion/completions/git
 
