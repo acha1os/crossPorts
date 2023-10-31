@@ -1,17 +1,17 @@
 # Description: Directory content manager
 # URL: https://git-scm.com/
-# Maintainer: CRUX System Team, core-ports at crux dot nu
+# Maintainer: dimi
 # Depends on: curl expat
 # Optional: tk
 
-name=git
+name=git-cross
 version=2.42.0
 release=1
 source=(https://www.kernel.org/pub/software/scm/git/git-{,manpages-}$version.tar.xz
 	git gitd.rc)
 
 build() {
-	cd $name-$version
+	cd git-$version
 
 	make \
         prefix=/usr \
