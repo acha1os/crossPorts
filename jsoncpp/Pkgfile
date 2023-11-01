@@ -1,0 +1,35 @@
+# Description: C++ library for interacting with JSON
+# URL: https://github.com/open-source-parsers/jsoncpp
+# Maintainer: CRUX System Team, core-ports at crux dot nu
+
+name=jsoncpp
+version=1.9.5
+release=1
+source=(https://github.com/open-source-parsers/jsoncpp/archive/$version/$name-$version.tar.gz
+        cross.txt)
+
+build() {
+  echo ${version} > $name-$version/version
+
+  sed -i "/c =/"s%$%\'"$CTARGET"-gcc\'% $SRC/cross.txt
+  sed -i "/cpp =/"s%$%\'"$CTARGET"-g++\'% $SRC/cross.txt
+  sed -i "/ar =/"s%$%\'"$CTARGET"-ar\'% $SRC/cross.txt
+  sed -i "/strip =/"s%$%\'"$CTARGET"-strip\'% $SRC/cross.txt
+  ARCH=$(echo $CTARGET | awk -F "-" '{ print $1}' )
+  sed -i "/cpu_family =/"s%$%\'"$ARCH"\'% $SRC/cross.txt
+  sed -i "/cpu =/"s%$%\'"$ARCH"\'% $SRC/cross.txt
+  
+  meson setup $name-$version build \
+    --prefix=/usr \
+    --buildtype=plain \
+    --wrap-mode nodownload \
+    -D b_lto=true \
+    -D b_pie=true \
+    --default-library shared \
+    --cross-file $SRC/cross.txt \
+    -Dcpp_args="$CXXFLAGS" \
+    -Dcpp_link_args="$LDFLAGS"
+    
+  meson compile -C build
+  DESTDIR=$PKG meson install -C build
+}

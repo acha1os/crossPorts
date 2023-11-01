@@ -1,0 +1,11 @@
+[binaries]
+c = 
+cpp = 
+ar = 
+strip = 
+
+[host_machine]
+system = 'linux'
+cpu_family = 
+cpu = 
+endian = 'little'
