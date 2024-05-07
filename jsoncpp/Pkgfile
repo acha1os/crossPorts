@@ -1,6 +1,6 @@
 # Description: C++ library for interacting with JSON
 # URL: https://github.com/open-source-parsers/jsoncpp
-# Maintainer: CRUX System Team, core-ports at crux dot nu
+# Maintainer: dimi
 
 name=jsoncpp
 version=1.9.5
